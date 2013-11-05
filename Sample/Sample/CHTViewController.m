@@ -22,6 +22,7 @@
     _selectedView = selectedView;
     if (_selectedView) {
       _selectedView.showEditingHandlers = YES;
+      [_selectedView.superview bringSubviewToFront:_selectedView];
     }
   }
 }
