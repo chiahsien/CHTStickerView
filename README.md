@@ -1,7 +1,7 @@
 CHTStickerView
 ==============
 
-A movable, resizable, rotatable UIView with one fingle, which is fully customizable!
+A movable, resizable, rotatable UIView with one finger, which is fully customizable!
 
 ![ScreenShot](https://raw.github.com/chiahsien/CHTStickerView/master/screenshot.png)
 
