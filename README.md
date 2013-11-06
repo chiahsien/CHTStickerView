@@ -50,7 +50,19 @@ Inspiration
 -----------
 CHTStickerView is heavily inspired by [ZDStickerView] and [IQStickerView].
 
-Try it yourself, and welcome to send me pull request.
+ChangeLog
+---------
+#### 0.2
+* Customizable handler position
+* Change delegate method name
+* Decrease minimumSize
+* Add comments in header file
+
+#### 0.1
+* Initial release
+
+
+Try it yourself, and welcome to send me pull-requests.
 
 [ZDStickerView]: https://github.com/zedoul/ZDStickerView
 [IQStickerView]: https://github.com/hackiftekhar/IQStickerView
