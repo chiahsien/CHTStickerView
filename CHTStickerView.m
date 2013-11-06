@@ -157,7 +157,7 @@ const NSInteger kMinimumSize = 4 * kGlobalInset;
     [self addGestureRecognizer:self.moveGesture];
     [self addGestureRecognizer:self.tapGesture];
 
-    // Content View
+    // Setup content view
     self.contentView = contentView;
     self.contentView.center = CGRectGetCenter(self.bounds);
     self.contentView.userInteractionEnabled = NO;
@@ -166,6 +166,7 @@ const NSInteger kMinimumSize = 4 * kGlobalInset;
     self.contentView.layer.borderWidth = 2;
     [self addSubview:self.contentView];
 
+    // Setup editing handlers
     [self setPosition:CHTStickerViewPositionTopLeft forHandler:CHTStickerViewHandlerClose];
     [self addSubview:self.closeImageView];
     [self setPosition:CHTStickerViewPositionTopRight forHandler:CHTStickerViewHandlerRotate];
