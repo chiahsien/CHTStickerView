@@ -44,7 +44,7 @@ CG_INLINE CGFloat CGPointGetDistance(CGPoint point1, CGPoint point2) {
 @end
 
 const NSInteger kGlobalInset = 12;
-const NSInteger kMinimumSize = 5 * kGlobalInset;
+const NSInteger kMinimumSize = 4 * kGlobalInset;
 
 @implementation CHTStickerView
 
