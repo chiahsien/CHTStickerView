@@ -13,6 +13,13 @@ typedef NS_ENUM(NSInteger, CHTStickerViewHandler) {
   CHTStickerViewHandlerRotate
 };
 
+typedef NS_ENUM(NSInteger, CHTStickerViewPosition) {
+  CHTStickerViewPositionTopLeft,
+  CHTStickerViewPositionTopRight,
+  CHTStickerViewPositionBottomLeft,
+  CHTStickerViewPositionBottomRight
+};
+
 @class CHTStickerView;
 
 @protocol CHTStickerViewDelegate <NSObject>
@@ -24,7 +31,7 @@ typedef NS_ENUM(NSInteger, CHTStickerViewHandler) {
 - (void)stickerViewDidChangeRotating:(CHTStickerView *)stickerView;
 - (void)stickerViewDidEndRotating:(CHTStickerView *)stickerView;
 - (void)stickerViewDidClose:(CHTStickerView *)stickerView;
-- (void)stickerViewDidTapped:(CHTStickerView *)stickerView;
+- (void)stickerViewDidTap:(CHTStickerView *)stickerView;
 @end
 
 @interface CHTStickerView : UIView
@@ -38,4 +45,5 @@ typedef NS_ENUM(NSInteger, CHTStickerViewHandler) {
 @property (nonatomic, strong) NSDictionary *userInfo;
 - (id)initWithContentView:(UIView *)contentView;
 - (void)setImage:(UIImage *)image forHandler:(CHTStickerViewHandler)handler;
+- (void)setPosition:(CHTStickerViewPosition)position forHandler:(CHTStickerViewHandler)handler;
 @end

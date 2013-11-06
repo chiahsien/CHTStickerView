@@ -77,7 +77,6 @@ const NSInteger kMinimumSize = 5 * kGlobalInset;
     _closeImageView.contentMode = UIViewContentModeScaleAspectFit;
     _closeImageView.backgroundColor = [UIColor clearColor];
     _closeImageView.userInteractionEnabled = YES;
-    _closeImageView.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleBottomMargin;
     [_closeImageView addGestureRecognizer:self.closeGesture];
   }
   return _closeImageView;
@@ -85,11 +84,10 @@ const NSInteger kMinimumSize = 5 * kGlobalInset;
 
 - (UIImageView *)rotateImageView {
   if (!_rotateImageView) {
-    _rotateImageView = [[UIImageView alloc] initWithFrame:CGRectMake(self.bounds.size.width-kGlobalInset*2, self.bounds.size.height-kGlobalInset*2, kGlobalInset*2, kGlobalInset*2)];
+    _rotateImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, kGlobalInset*2, kGlobalInset*2)];
     _rotateImageView.contentMode = UIViewContentModeScaleAspectFit;
     _rotateImageView.backgroundColor = [UIColor clearColor];
     _rotateImageView.userInteractionEnabled = YES;
-    _rotateImageView.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleTopMargin;
     [_rotateImageView addGestureRecognizer:self.rotateGesture];
   }
   return _rotateImageView;
@@ -168,7 +166,9 @@ const NSInteger kMinimumSize = 5 * kGlobalInset;
     self.contentView.layer.borderWidth = 2;
     [self addSubview:self.contentView];
 
+    [self setPosition:CHTStickerViewPositionTopLeft forHandler:CHTStickerViewHandlerClose];
     [self addSubview:self.closeImageView];
+    [self setPosition:CHTStickerViewPositionTopRight forHandler:CHTStickerViewHandlerRotate];
     [self addSubview:self.rotateImageView];
 
     self.showEditingHandlers = YES;
@@ -267,8 +267,8 @@ const NSInteger kMinimumSize = 5 * kGlobalInset;
 }
 
 - (void)handleTapGesture:(UITapGestureRecognizer *)recognizer {
-  if ([self.delegate respondsToSelector:@selector(stickerViewDidTapped:)]) {
-    [self.delegate stickerViewDidTapped:self];
+  if ([self.delegate respondsToSelector:@selector(stickerViewDidTap:)]) {
+    [self.delegate stickerViewDidTap:self];
   }
 }
 
@@ -281,6 +281,40 @@ const NSInteger kMinimumSize = 5 * kGlobalInset;
       break;
     case CHTStickerViewHandlerRotate:
       self.rotateImageView.image = image;
+      break;
+  }
+}
+
+- (void)setPosition:(CHTStickerViewPosition)position forHandler:(CHTStickerViewHandler)handler {
+  CGPoint origin = self.contentView.frame.origin;
+  CGSize size = self.contentView.frame.size;
+  UIImageView *handlerView = nil;
+  
+  switch (handler) {
+    case CHTStickerViewHandlerClose:
+      handlerView = self.closeImageView;
+      break;
+    case CHTStickerViewHandlerRotate:
+      handlerView = self.rotateImageView;
+      break;
+  }
+  
+  switch (position) {
+    case CHTStickerViewPositionTopLeft:
+      handlerView.center = origin;
+      handlerView.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleBottomMargin;
+      break;
+    case CHTStickerViewPositionTopRight:
+      handlerView.center = CGPointMake(origin.x + size.width, origin.y);
+      handlerView.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleBottomMargin;
+      break;
+    case CHTStickerViewPositionBottomLeft:
+      handlerView.center = CGPointMake(origin.x, origin.y + size.height);
+      handlerView.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin;
+      break;
+    case CHTStickerViewPositionBottomRight:
+      handlerView.center = CGPointMake(origin.x + size.width, origin.y + size.height);
+      handlerView.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleTopMargin;
       break;
   }
 }
