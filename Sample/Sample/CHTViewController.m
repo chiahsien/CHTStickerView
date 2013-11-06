@@ -59,7 +59,7 @@
   self.selectedView = stickerView;
 }
 
-- (void)stickerViewDidTapped:(CHTStickerView *)stickerView {
+- (void)stickerViewDidTap:(CHTStickerView *)stickerView {
   self.selectedView = stickerView;
 }
 
