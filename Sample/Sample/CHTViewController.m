@@ -36,6 +36,7 @@
   CHTStickerView *stickerView = [[CHTStickerView alloc] initWithContentView:testView];
   stickerView.center = self.view.center;
   stickerView.delegate = self;
+  stickerView.outlineBorderColor = [UIColor blueColor];
   [stickerView setImage:[UIImage imageNamed:@"Close"] forHandler:CHTStickerViewHandlerClose];
   [stickerView setImage:[UIImage imageNamed:@"Rotate"] forHandler:CHTStickerViewHandlerRotate];
   [self.view addSubview:stickerView];

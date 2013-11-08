@@ -131,6 +131,11 @@ const NSInteger kMinimumSize = 4 * kGlobalInset;
   _minimumSize = MAX(minimumSize, kMinimumSize);
 }
 
+- (void)setOutlineBorderColor:(UIColor *)outlineBorderColor {
+  _outlineBorderColor = outlineBorderColor;
+  self.contentView.layer.borderColor = _outlineBorderColor.CGColor;
+}
+
 #pragma mark - Private Methods
 
 - (void)_setEnableClose:(BOOL)enableClose {
@@ -162,8 +167,6 @@ const NSInteger kMinimumSize = 4 * kGlobalInset;
     self.contentView.center = CGRectGetCenter(self.bounds);
     self.contentView.userInteractionEnabled = NO;
     self.contentView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-    self.contentView.layer.borderColor = [UIColor brownColor].CGColor;
-    self.contentView.layer.borderWidth = 2;
     [self addSubview:self.contentView];
 
     // Setup editing handlers
@@ -177,6 +180,7 @@ const NSInteger kMinimumSize = 4 * kGlobalInset;
     self.enableRotate = YES;
 
     self.minimumSize = kMinimumSize;
+    self.outlineBorderColor = [UIColor brownColor];
   }
   return self;
 }
