@@ -79,4 +79,11 @@ typedef NS_ENUM(NSInteger, CHTStickerViewPosition) {
  *  @param handler  The editing handler.
  */
 - (void)setPosition:(CHTStickerViewPosition)position forHandler:(CHTStickerViewHandler)handler;
+
+/**
+ *  Customize handler's size
+ *
+ *  @param size Handler's size
+ */
+- (void)setHandlerSize:(NSInteger)size;
 @end

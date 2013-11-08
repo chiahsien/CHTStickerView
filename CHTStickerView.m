@@ -27,9 +27,21 @@ CG_INLINE CGFloat CGPointGetDistance(CGPoint point1, CGPoint point2) {
 }
 
 @interface CHTStickerView () {
+  /**
+   *  Default value
+   */
+  NSInteger defaultInset;
+  NSInteger defaultMinimumSize;
+
+  /**
+   *  Variables for moving view
+   */
   CGPoint beginningPoint;
   CGPoint beginningCenter;
 
+  /**
+   *  Variables for rotating and resizing view
+   */
   CGRect initialBounds;
   CGFloat initialDistance;
   CGFloat deltaAngle;
@@ -42,9 +54,6 @@ CG_INLINE CGFloat CGPointGetDistance(CGPoint point1, CGPoint point2) {
 @property (nonatomic, strong) UITapGestureRecognizer *closeGesture;
 @property (nonatomic, strong) UITapGestureRecognizer *tapGesture;
 @end
-
-const NSInteger kGlobalInset = 12;
-const NSInteger kMinimumSize = 4 * kGlobalInset;
 
 @implementation CHTStickerView
 
@@ -73,7 +82,7 @@ const NSInteger kMinimumSize = 4 * kGlobalInset;
 
 - (UIImageView *)closeImageView {
   if (!_closeImageView) {
-    _closeImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, kGlobalInset*2, kGlobalInset*2)];
+    _closeImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, defaultInset*2, defaultInset*2)];
     _closeImageView.contentMode = UIViewContentModeScaleAspectFit;
     _closeImageView.backgroundColor = [UIColor clearColor];
     _closeImageView.userInteractionEnabled = YES;
@@ -84,7 +93,7 @@ const NSInteger kMinimumSize = 4 * kGlobalInset;
 
 - (UIImageView *)rotateImageView {
   if (!_rotateImageView) {
-    _rotateImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, kGlobalInset*2, kGlobalInset*2)];
+    _rotateImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, defaultInset*2, defaultInset*2)];
     _rotateImageView.contentMode = UIViewContentModeScaleAspectFit;
     _rotateImageView.backgroundColor = [UIColor clearColor];
     _rotateImageView.userInteractionEnabled = YES;
@@ -128,7 +137,7 @@ const NSInteger kMinimumSize = 4 * kGlobalInset;
 }
 
 - (void)setMinimumSize:(NSInteger)minimumSize {
-  _minimumSize = MAX(minimumSize, kMinimumSize);
+  _minimumSize = MAX(minimumSize, defaultMinimumSize);
 }
 
 - (void)setOutlineBorderColor:(UIColor *)outlineBorderColor {
@@ -155,8 +164,11 @@ const NSInteger kMinimumSize = 4 * kGlobalInset;
     return nil;
   }
 
+  defaultInset = 11;
+  defaultMinimumSize = 4 * defaultInset;
+
   CGRect frame = contentView.frame;
-  frame = CGRectMake(0, 0, frame.size.width + kGlobalInset*2, frame.size.height + kGlobalInset*2);
+  frame = CGRectMake(0, 0, frame.size.width + defaultInset*2, frame.size.height + defaultInset*2);
   if (self = [super initWithFrame:frame]) {
     self.backgroundColor = [UIColor clearColor];
     [self addGestureRecognizer:self.moveGesture];
@@ -179,7 +191,7 @@ const NSInteger kMinimumSize = 4 * kGlobalInset;
     self.enableClose = YES;
     self.enableRotate = YES;
 
-    self.minimumSize = kMinimumSize;
+    self.minimumSize = defaultMinimumSize;
     self.outlineBorderColor = [UIColor brownColor];
   }
   return self;
@@ -294,7 +306,7 @@ const NSInteger kMinimumSize = 4 * kGlobalInset;
   CGPoint origin = self.contentView.frame.origin;
   CGSize size = self.contentView.frame.size;
   UIImageView *handlerView = nil;
-  
+
   switch (handler) {
     case CHTStickerViewHandlerClose:
       handlerView = self.closeImageView;
@@ -322,6 +334,41 @@ const NSInteger kMinimumSize = 4 * kGlobalInset;
       handlerView.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleTopMargin;
       break;
   }
+
+  handlerView.tag = position;
+}
+
+- (void)setHandlerSize:(NSInteger)size {
+  if (size <= 0) {
+    return;
+  }
+
+  defaultInset = round(size/2);
+  defaultMinimumSize = 4 * defaultInset;
+  self.minimumSize = MAX(self.minimumSize, defaultMinimumSize);
+
+  CGPoint originalCenter = self.center;
+  CGAffineTransform originalTransform = self.transform;
+  CGRect frame = self.contentView.frame;
+  frame = CGRectMake(0, 0, frame.size.width + defaultInset*2, frame.size.height + defaultInset*2);
+
+  [self.contentView removeFromSuperview];
+
+  self.transform = CGAffineTransformIdentity;
+  self.frame = frame;
+
+  self.contentView.center = CGRectGetCenter(self.bounds);
+  [self addSubview:self.contentView];
+  [self sendSubviewToBack:self.contentView];
+
+  CGRect handlerFrame = CGRectMake(0, 0, defaultInset*2, defaultInset*2);
+  self.closeImageView.frame = handlerFrame;
+  [self setPosition:self.closeImageView.tag forHandler:CHTStickerViewHandlerClose];
+  self.rotateImageView.frame = handlerFrame;
+  [self setPosition:self.rotateImageView.tag forHandler:CHTStickerViewHandlerRotate];
+
+  self.center = originalCenter;
+  self.transform = originalTransform;
 }
 
 @end
