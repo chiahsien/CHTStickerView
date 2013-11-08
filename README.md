@@ -52,6 +52,10 @@ CHTStickerView is heavily inspired by [ZDStickerView] and [IQStickerView].
 
 ChangeLog
 ---------
+#### 0.3
+* Customizable outline border color
+* Customizable handler's size
+
 #### 0.2
 * Customizable handler position
 * Change delegate method name

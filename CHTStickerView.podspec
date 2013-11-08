@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "CHTStickerView"
-  s.version      = "0.2"
+  s.version      = "0.3"
   s.summary      = "A movable, resizable, rotatable UIView with one fingle, which is fully customizable!"
   s.homepage     = "https://github.com/chiahsien/CHTStickerView"
   s.screenshots  = "https://raw.github.com/chiahsien/CHTStickerView/master/screenshot.png"
