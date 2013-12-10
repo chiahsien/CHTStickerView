@@ -82,6 +82,13 @@ CG_INLINE CGFloat CGPointGetDistance(CGPoint point1, CGPoint point2) {
   return _closeGesture;
 }
 
+- (UITapGestureRecognizer *)tapGesture {
+  if (!_tapGesture) {
+    _tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTapGesture:)];
+  }
+  return _tapGesture;
+}
+
 - (UIImageView *)closeImageView {
   if (!_closeImageView) {
     _closeImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, defaultInset*2, defaultInset*2)];
@@ -102,13 +109,6 @@ CG_INLINE CGFloat CGPointGetDistance(CGPoint point1, CGPoint point2) {
     [_rotateImageView addGestureRecognizer:self.rotateGesture];
   }
   return _rotateImageView;
-}
-
-- (UITapGestureRecognizer *)tapGesture {
-  if (!_tapGesture) {
-    _tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTapGesture:)];
-  }
-  return _tapGesture;
 }
 
 - (void)setEnableClose:(BOOL)enableClose {
