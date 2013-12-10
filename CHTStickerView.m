@@ -26,7 +26,7 @@ CG_INLINE CGFloat CGPointGetDistance(CGPoint point1, CGPoint point2) {
   return sqrt((fx*fx + fy*fy));
 }
 
-@interface CHTStickerView () {
+@interface CHTStickerView () <UIGestureRecognizerDelegate> {
   /**
    *  Default value
    */
@@ -69,6 +69,7 @@ CG_INLINE CGFloat CGPointGetDistance(CGPoint point1, CGPoint point2) {
 - (UIPanGestureRecognizer *)rotateGesture {
   if (!_rotateGesture) {
     _rotateGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handleRotateGesture:)];
+    _rotateGesture.delegate = self;
   }
   return _rotateGesture;
 }
@@ -76,6 +77,7 @@ CG_INLINE CGFloat CGPointGetDistance(CGPoint point1, CGPoint point2) {
 - (UITapGestureRecognizer *)closeGesture {
   if (!_closeGesture) {
     _closeGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleCloseGesture:)];
+    _closeGesture.delegate = self;
   }
   return _closeGesture;
 }
@@ -287,6 +289,12 @@ CG_INLINE CGFloat CGPointGetDistance(CGPoint point1, CGPoint point2) {
   if ([self.delegate respondsToSelector:@selector(stickerViewDidTap:)]) {
     [self.delegate stickerViewDidTap:self];
   }
+}
+
+#pragma mark - UIGestureRecognizerDelegate
+
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldBeRequiredToFailByGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
+  return YES;
 }
 
 #pragma mark - Public Methods
