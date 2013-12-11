@@ -294,6 +294,13 @@ CG_INLINE CGFloat CGPointGetDistance(CGPoint point1, CGPoint point2) {
 #pragma mark - UIGestureRecognizerDelegate
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldBeRequiredToFailByGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer {
+  /**
+   * ref: http://stackoverflow.com/questions/19095165/should-superviews-gesture-cancel-subviews-gesture-in-ios-7/
+   *
+   * The `gestureRecognizer` would be either closeGestureRecognizer or rotateGestureRecognizer,
+   * `otherGestureRecognizer` should work only when `gestureRecognizer` is failed.
+   * So, we always return YES here.
+   */
   return YES;
 }
 
