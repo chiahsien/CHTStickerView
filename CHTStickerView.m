@@ -181,6 +181,9 @@ CG_INLINE CGFloat CGPointGetDistance(CGPoint point1, CGPoint point2) {
     self.contentView.center = CGRectGetCenter(self.bounds);
     self.contentView.userInteractionEnabled = NO;
     self.contentView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    if ([self.contentView.layer respondsToSelector:@selector(setAllowsEdgeAntialiasing:)]) {
+      [self.contentView.layer setAllowsEdgeAntialiasing:YES];
+    }
     [self addSubview:self.contentView];
 
     // Setup editing handlers
