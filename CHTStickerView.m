@@ -282,10 +282,10 @@ CG_INLINE CGFloat CGPointGetDistance(CGPoint point1, CGPoint point2) {
 }
 
 - (void)handleCloseGesture:(UITapGestureRecognizer *)recognizer {
-  [self removeFromSuperview];
   if ([self.delegate respondsToSelector:@selector(stickerViewDidClose:)]) {
     [self.delegate stickerViewDidClose:self];
   }
+  [self removeFromSuperview];
 }
 
 - (void)handleTapGesture:(UITapGestureRecognizer *)recognizer {
