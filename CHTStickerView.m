@@ -52,6 +52,8 @@ CG_INLINE CGFloat CGPointGetDistance(CGPoint point1, CGPoint point2) {
 @property (nonatomic, strong) UIPanGestureRecognizer *rotateGesture;
 @property (nonatomic, strong) UIImageView *closeImageView;
 @property (nonatomic, strong) UITapGestureRecognizer *closeGesture;
+@property (nonatomic, strong) UIImageView *flipImageView;
+@property (nonatomic, strong) UITapGestureRecognizer *flipGesture;
 @property (nonatomic, strong) UITapGestureRecognizer *tapGesture;
 @end
 
@@ -80,6 +82,14 @@ CG_INLINE CGFloat CGPointGetDistance(CGPoint point1, CGPoint point2) {
     _closeGesture.delegate = self;
   }
   return _closeGesture;
+}
+
+- (UITapGestureRecognizer *)flipGesture {
+    if (!_flipGesture) {
+        _flipGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleFlipGesture:)];
+        _flipGesture.delegate = self;
+    }
+    return _flipGesture;
 }
 
 - (UITapGestureRecognizer *)tapGesture {
@@ -111,6 +121,17 @@ CG_INLINE CGFloat CGPointGetDistance(CGPoint point1, CGPoint point2) {
   return _rotateImageView;
 }
 
+- (UIImageView *)flipImageView {
+    if (!_flipImageView) {
+        _flipImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, defaultInset*2, defaultInset*2)];
+        _flipImageView.contentMode = UIViewContentModeScaleAspectFit;
+        _flipImageView.backgroundColor = [UIColor clearColor];
+        _flipImageView.userInteractionEnabled = YES;
+        [_flipImageView addGestureRecognizer:self.flipGesture];
+    }
+    return _flipImageView;
+}
+
 - (void)setEnableClose:(BOOL)enableClose {
   _enableClose = enableClose;
   if (self.showEditingHandlers) {
@@ -130,10 +151,12 @@ CG_INLINE CGFloat CGPointGetDistance(CGPoint point1, CGPoint point2) {
   if (showEditingHandlers) {
     [self _setEnableClose:self.enableClose];
     [self _setEnableRotate:self.enableRotate];
+    [self _setEnableFlip:self.enableFlip];
     self.contentView.layer.borderWidth = 2;
   } else {
     [self _setEnableClose:NO];
     [self _setEnableRotate:NO];
+    [self _setEnableFlip:NO];
     self.contentView.layer.borderWidth = 0;
   }
 }
@@ -157,6 +180,11 @@ CG_INLINE CGFloat CGPointGetDistance(CGPoint point1, CGPoint point2) {
 - (void)_setEnableRotate:(BOOL)enableRotate {
   self.rotateImageView.hidden = !enableRotate;
   self.rotateImageView.userInteractionEnabled = enableRotate;
+}
+
+- (void)_setEnableFlip:(BOOL)enableFlip {
+    self.flipImageView.hidden = !enableFlip;
+    self.flipImageView.userInteractionEnabled = enableFlip;
 }
 
 #pragma mark - UIView
@@ -191,10 +219,13 @@ CG_INLINE CGFloat CGPointGetDistance(CGPoint point1, CGPoint point2) {
     [self addSubview:self.closeImageView];
     [self setPosition:CHTStickerViewPositionTopRight forHandler:CHTStickerViewHandlerRotate];
     [self addSubview:self.rotateImageView];
+    [self setPosition:CHTStickerViewPositionBottomLeft forHandler:CHTStickerViewHandlerFlip];
+    [self addSubview:self.flipImageView];
 
     self.showEditingHandlers = YES;
     self.enableClose = YES;
     self.enableRotate = YES;
+    self.enableFlip = YES;
 
     self.minimumSize = defaultMinimumSize;
     self.outlineBorderColor = [UIColor brownColor];
@@ -288,6 +319,12 @@ CG_INLINE CGFloat CGPointGetDistance(CGPoint point1, CGPoint point2) {
   [self removeFromSuperview];
 }
 
+- (void)handleFlipGesture:(UITapGestureRecognizer *)recognizer {
+    [UIView animateWithDuration:0.3 animations:^{
+        self.contentView.transform = CGAffineTransformScale(self.contentView.transform, -1, 1);
+    }];
+}
+
 - (void)handleTapGesture:(UITapGestureRecognizer *)recognizer {
   if ([self.delegate respondsToSelector:@selector(stickerViewDidTap:)]) {
     [self.delegate stickerViewDidTap:self];
@@ -317,6 +354,9 @@ CG_INLINE CGFloat CGPointGetDistance(CGPoint point1, CGPoint point2) {
     case CHTStickerViewHandlerRotate:
       self.rotateImageView.image = image;
       break;
+    case CHTStickerViewHandlerFlip:
+      self.flipImageView.image = image;
+      break;
   }
 }
 
@@ -331,6 +371,9 @@ CG_INLINE CGFloat CGPointGetDistance(CGPoint point1, CGPoint point2) {
       break;
     case CHTStickerViewHandlerRotate:
       handlerView = self.rotateImageView;
+      break;
+    case CHTStickerViewHandlerFlip:
+      handlerView = self.flipImageView;
       break;
   }
   
@@ -384,6 +427,8 @@ CG_INLINE CGFloat CGPointGetDistance(CGPoint point1, CGPoint point2) {
   [self setPosition:self.closeImageView.tag forHandler:CHTStickerViewHandlerClose];
   self.rotateImageView.frame = handlerFrame;
   [self setPosition:self.rotateImageView.tag forHandler:CHTStickerViewHandlerRotate];
+  self.flipImageView.frame = handlerFrame;
+  [self setPosition:self.flipImageView.tag forHandler:CHTStickerViewHandlerFlip];
 
   self.center = originalCenter;
   self.transform = originalTransform;

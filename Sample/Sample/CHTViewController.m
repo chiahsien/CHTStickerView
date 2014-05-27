@@ -39,6 +39,7 @@
   stickerView.outlineBorderColor = [UIColor blueColor];
   [stickerView setImage:[UIImage imageNamed:@"Close"] forHandler:CHTStickerViewHandlerClose];
   [stickerView setImage:[UIImage imageNamed:@"Rotate"] forHandler:CHTStickerViewHandlerRotate];
+  [stickerView setImage:[UIImage imageNamed:@"Flip"] forHandler:CHTStickerViewHandlerFlip];
   [stickerView setHandlerSize:40];
   [self.view addSubview:stickerView];
 
