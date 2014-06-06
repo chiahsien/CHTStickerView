@@ -10,7 +10,8 @@
 
 typedef NS_ENUM(NSInteger, CHTStickerViewHandler) {
   CHTStickerViewHandlerClose,
-  CHTStickerViewHandlerRotate
+  CHTStickerViewHandlerRotate,
+  CHTStickerViewHandlerFlip
 };
 
 typedef NS_ENUM(NSInteger, CHTStickerViewPosition) {
@@ -42,6 +43,8 @@ typedef NS_ENUM(NSInteger, CHTStickerViewPosition) {
 @property (nonatomic, assign) BOOL enableClose;
 /// Enable the rotate/resize handler or not. Default value is YES.
 @property (nonatomic, assign) BOOL enableRotate;
+/// Enable the flip handler or not. Default value is YES.
+@property (nonatomic, assign) BOOL enableFlip;
 /// Show close and rotate/resize handlers or not. Default value is YES.
 @property (nonatomic, assign) BOOL showEditingHandlers;
 /// Minimum value for the shorter side while resizing. Default value will be used if not set.
