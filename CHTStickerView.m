@@ -23,7 +23,7 @@ CG_INLINE CGFloat CGAffineTransformGetAngle(CGAffineTransform t) {
 CG_INLINE CGFloat CGPointGetDistance(CGPoint point1, CGPoint point2) {
   CGFloat fx = (point2.x - point1.x);
   CGFloat fy = (point2.y - point1.y);
-  return sqrt((fx*fx + fy*fy));
+  return sqrt((fx * fx + fy * fy));
 }
 
 @interface CHTStickerView () <UIGestureRecognizerDelegate> {
@@ -85,11 +85,11 @@ CG_INLINE CGFloat CGPointGetDistance(CGPoint point1, CGPoint point2) {
 }
 
 - (UITapGestureRecognizer *)flipGesture {
-    if (!_flipGesture) {
-        _flipGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleFlipGesture:)];
-        _flipGesture.delegate = self;
-    }
-    return _flipGesture;
+  if (!_flipGesture) {
+    _flipGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleFlipGesture:)];
+    _flipGesture.delegate = self;
+  }
+  return _flipGesture;
 }
 
 - (UITapGestureRecognizer *)tapGesture {
@@ -101,7 +101,7 @@ CG_INLINE CGFloat CGPointGetDistance(CGPoint point1, CGPoint point2) {
 
 - (UIImageView *)closeImageView {
   if (!_closeImageView) {
-    _closeImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, defaultInset*2, defaultInset*2)];
+    _closeImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, defaultInset * 2, defaultInset * 2)];
     _closeImageView.contentMode = UIViewContentModeScaleAspectFit;
     _closeImageView.backgroundColor = [UIColor clearColor];
     _closeImageView.userInteractionEnabled = YES;
@@ -112,7 +112,7 @@ CG_INLINE CGFloat CGPointGetDistance(CGPoint point1, CGPoint point2) {
 
 - (UIImageView *)rotateImageView {
   if (!_rotateImageView) {
-    _rotateImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, defaultInset*2, defaultInset*2)];
+    _rotateImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, defaultInset * 2, defaultInset * 2)];
     _rotateImageView.contentMode = UIViewContentModeScaleAspectFit;
     _rotateImageView.backgroundColor = [UIColor clearColor];
     _rotateImageView.userInteractionEnabled = YES;
@@ -122,14 +122,14 @@ CG_INLINE CGFloat CGPointGetDistance(CGPoint point1, CGPoint point2) {
 }
 
 - (UIImageView *)flipImageView {
-    if (!_flipImageView) {
-        _flipImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, defaultInset*2, defaultInset*2)];
-        _flipImageView.contentMode = UIViewContentModeScaleAspectFit;
-        _flipImageView.backgroundColor = [UIColor clearColor];
-        _flipImageView.userInteractionEnabled = YES;
-        [_flipImageView addGestureRecognizer:self.flipGesture];
-    }
-    return _flipImageView;
+  if (!_flipImageView) {
+    _flipImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, defaultInset * 2, defaultInset * 2)];
+    _flipImageView.contentMode = UIViewContentModeScaleAspectFit;
+    _flipImageView.backgroundColor = [UIColor clearColor];
+    _flipImageView.userInteractionEnabled = YES;
+    [_flipImageView addGestureRecognizer:self.flipGesture];
+  }
+  return _flipImageView;
 }
 
 - (void)setEnableClose:(BOOL)enableClose {
@@ -183,8 +183,8 @@ CG_INLINE CGFloat CGPointGetDistance(CGPoint point1, CGPoint point2) {
 }
 
 - (void)_setEnableFlip:(BOOL)enableFlip {
-    self.flipImageView.hidden = !enableFlip;
-    self.flipImageView.userInteractionEnabled = enableFlip;
+  self.flipImageView.hidden = !enableFlip;
+  self.flipImageView.userInteractionEnabled = enableFlip;
 }
 
 #pragma mark - UIView
@@ -198,7 +198,7 @@ CG_INLINE CGFloat CGPointGetDistance(CGPoint point1, CGPoint point2) {
   defaultMinimumSize = 4 * defaultInset;
 
   CGRect frame = contentView.frame;
-  frame = CGRectMake(0, 0, frame.size.width + defaultInset*2, frame.size.height + defaultInset*2);
+  frame = CGRectMake(0, 0, frame.size.width + defaultInset * 2, frame.size.height + defaultInset * 2);
   if (self = [super initWithFrame:frame]) {
     self.backgroundColor = [UIColor clearColor];
     [self addGestureRecognizer:self.moveGesture];
@@ -288,8 +288,8 @@ CG_INLINE CGFloat CGPointGetDistance(CGPoint point1, CGPoint point2) {
       float angleDiff = deltaAngle - angle;
       self.transform = CGAffineTransformMakeRotation(-angleDiff);
 
-      CGFloat scale = CGPointGetDistance(center, touchLocation)/initialDistance;
-      CGFloat minimumScale = self.minimumSize/MIN(initialBounds.size.width, initialBounds.size.height);
+      CGFloat scale = CGPointGetDistance(center, touchLocation) / initialDistance;
+      CGFloat minimumScale = self.minimumSize / MIN(initialBounds.size.width, initialBounds.size.height);
       scale = MAX(scale, minimumScale);
       CGRect scaledBounds = CGRectScale(initialBounds, scale, scale);
       self.bounds = scaledBounds;
@@ -320,9 +320,9 @@ CG_INLINE CGFloat CGPointGetDistance(CGPoint point1, CGPoint point2) {
 }
 
 - (void)handleFlipGesture:(UITapGestureRecognizer *)recognizer {
-    [UIView animateWithDuration:0.3 animations:^{
-        self.contentView.transform = CGAffineTransformScale(self.contentView.transform, -1, 1);
-    }];
+  [UIView animateWithDuration:0.3 animations:^{
+    self.contentView.transform = CGAffineTransformScale(self.contentView.transform, -1, 1);
+  }];
 }
 
 - (void)handleTapGesture:(UITapGestureRecognizer *)recognizer {
@@ -351,9 +351,11 @@ CG_INLINE CGFloat CGPointGetDistance(CGPoint point1, CGPoint point2) {
     case CHTStickerViewHandlerClose:
       self.closeImageView.image = image;
       break;
+
     case CHTStickerViewHandlerRotate:
       self.rotateImageView.image = image;
       break;
+
     case CHTStickerViewHandlerFlip:
       self.flipImageView.image = image;
       break;
@@ -369,27 +371,32 @@ CG_INLINE CGFloat CGPointGetDistance(CGPoint point1, CGPoint point2) {
     case CHTStickerViewHandlerClose:
       handlerView = self.closeImageView;
       break;
+
     case CHTStickerViewHandlerRotate:
       handlerView = self.rotateImageView;
       break;
+
     case CHTStickerViewHandlerFlip:
       handlerView = self.flipImageView;
       break;
   }
-  
+
   switch (position) {
     case CHTStickerViewPositionTopLeft:
       handlerView.center = origin;
       handlerView.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleBottomMargin;
       break;
+
     case CHTStickerViewPositionTopRight:
       handlerView.center = CGPointMake(origin.x + size.width, origin.y);
       handlerView.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleBottomMargin;
       break;
+
     case CHTStickerViewPositionBottomLeft:
       handlerView.center = CGPointMake(origin.x, origin.y + size.height);
       handlerView.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleTopMargin;
       break;
+
     case CHTStickerViewPositionBottomRight:
       handlerView.center = CGPointMake(origin.x + size.width, origin.y + size.height);
       handlerView.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleTopMargin;
@@ -404,14 +411,14 @@ CG_INLINE CGFloat CGPointGetDistance(CGPoint point1, CGPoint point2) {
     return;
   }
 
-  defaultInset = round(size/2);
+  defaultInset = round(size / 2);
   defaultMinimumSize = 4 * defaultInset;
   self.minimumSize = MAX(self.minimumSize, defaultMinimumSize);
 
   CGPoint originalCenter = self.center;
   CGAffineTransform originalTransform = self.transform;
   CGRect frame = self.contentView.frame;
-  frame = CGRectMake(0, 0, frame.size.width + defaultInset*2, frame.size.height + defaultInset*2);
+  frame = CGRectMake(0, 0, frame.size.width + defaultInset * 2, frame.size.height + defaultInset * 2);
 
   [self.contentView removeFromSuperview];
 
@@ -422,7 +429,7 @@ CG_INLINE CGFloat CGPointGetDistance(CGPoint point1, CGPoint point2) {
   [self addSubview:self.contentView];
   [self sendSubviewToBack:self.contentView];
 
-  CGRect handlerFrame = CGRectMake(0, 0, defaultInset*2, defaultInset*2);
+  CGRect handlerFrame = CGRectMake(0, 0, defaultInset * 2, defaultInset * 2);
   self.closeImageView.frame = handlerFrame;
   [self setPosition:self.closeImageView.tag forHandler:CHTStickerViewHandlerClose];
   self.rotateImageView.frame = handlerFrame;

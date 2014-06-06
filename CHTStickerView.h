@@ -8,13 +8,13 @@
 
 #import <UIKit/UIKit.h>
 
-typedef NS_ENUM(NSInteger, CHTStickerViewHandler) {
+typedef NS_ENUM (NSInteger, CHTStickerViewHandler) {
   CHTStickerViewHandlerClose,
   CHTStickerViewHandlerRotate,
   CHTStickerViewHandlerFlip
 };
 
-typedef NS_ENUM(NSInteger, CHTStickerViewPosition) {
+typedef NS_ENUM (NSInteger, CHTStickerViewPosition) {
   CHTStickerViewPositionTopLeft,
   CHTStickerViewPositionTopRight,
   CHTStickerViewPositionBottomLeft,
@@ -36,7 +36,7 @@ typedef NS_ENUM(NSInteger, CHTStickerViewPosition) {
 @end
 
 @interface CHTStickerView : UIView
-@property (nonatomic, weak) id<CHTStickerViewDelegate> delegate;
+@property (nonatomic, weak) id <CHTStickerViewDelegate> delegate;
 /// The contentView inside the sticker view.
 @property (nonatomic, strong, readonly) UIView *contentView;
 /// Enable the close handler or not. Default value is YES.
@@ -57,7 +57,7 @@ typedef NS_ENUM(NSInteger, CHTStickerViewPosition) {
 /**
  *  Initialize a sticker view. This is the designated initializer.
  *
- *  @param contentView The contentView inside the sticker view. 
+ *  @param contentView The contentView inside the sticker view.
  *                     You can access it via the `contentView` property.
  *
  *  @return The sticker view.
